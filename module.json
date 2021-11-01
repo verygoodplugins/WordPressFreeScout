@@ -1,0 +1,25 @@
+{
+    "name": "Paid Memberships Pro",
+    "alias": "pmprofreescout",
+    "description": "Links Paid Memberships Pro order details into freescout widget via REST API.",
+    "version": "1.0.0",
+    "detailsUrl": "https://strangerstudios.com",
+    "author": "Stranger Studios",
+    "authorUrl": "https://strangerstudios.com",
+    "requiredAppVersion": "1.0.2",
+    "license": "AGPL-2.0",
+    "keywords": [],
+    "active": 0,
+    "order": 0,
+    "img": "https://www.paidmembershipspro.com/images/Paid-Memberships-Pro_icon_shiny_72DPI.png",
+    "providers": [
+        "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
+    ],
+    "aliases": {
+        "PMProFreescout": "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
+    },
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -1,0 +1,27 @@
+{
+    "name": "freescout/pmprofreescout",
+    "description": "",
+    "authors": [
+        {
+            "name": "Stranger Studios",
+            "email": "support@strangerstudios.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\PmproFreescout\\": ""
+        }
+    },
+    "require": {
+    }
+}
