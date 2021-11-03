@@ -14,9 +14,28 @@
         </div> -->
         @if( $results )
         <ul class="sidebar-block-list pmpro-orders-list">
-            <li><strong>Level:</strong> {{$results->level}} (<a href="{{$url}}wp-admin/admin.php?page=pmpro-orders&order={{$results->order_id}}" target="_blank">{{$results->order_total}}</a>)</li>
+            <li><strong>Username:</strong> <a href="{{$url}}forums/users/{{$results->user_login}}" target="_blank">{{$results->user_login}}</a></li>
+            <li><strong>Level:</strong> {{$results->level}} (
+            @if( $results->order_id != 0 )
+            <a href="{{$url}}wp-admin/admin.php?page=pmpro-orders&order={{$results->order_id}}" target="_blank">{{$results->order_total}}</a>
+            @else
+            {{ __("N/A") }}
+            @endif
+            )
+            </li>
             <li><strong>Key:</strong> {{$results->license}} </li>
+            <li><strong>Refunded:</strong> @if( $results->refunds_last_order_id )
+            <span style="color:red;">{{ __("Yes") }}</span>
+            ( <a href="{{$url}}wp-admin/admin.php?page=pmpro-orders&order={{$results->refunds_last_order_id}}" target="_blank">#{{$results->refunds_last_order_id}}</a> )
+            @else
+            {{ __("No") }}
+            @endif
+            </li>
+            <li><strong>Num. Refunds:</strong> {{$results->refunds_total_found}}</li>
+            <li><strong>User Notes:</strong> {{$results->pmpro_user_notes}}</li>
         </ul>
+        @elseif( $error )
+        <div class="text-help margin-top-10 edd-no-orders">{{ $error }}</div>
         @else
         <div class="text-help margin-top-10 edd-no-orders">{{ __("No data found") }}</div>
         @endif

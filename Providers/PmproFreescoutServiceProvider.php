@@ -10,8 +10,6 @@ define( 'PMPRO_MODULE', 'pmpro' );
 
 class PmproFreescoutServiceProvider extends ServiceProvider
 {
-    
-    const MAX_ORDERS = 3;
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -105,6 +103,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
 
             echo \View::make('pmprofreescout::partials/orders', [
                 'results'        => $results['data'],
+                'error'         => $results['error'],
                 'customer_email' => $customer_email,
                 'load'           => $load,
                 'url'            => \PMProFreescout::getSanitizedUrl( $settings['url']),
@@ -132,7 +131,6 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             'data' => [],
         ];
 
-
         // Get settings from database or from config.
         if ( $mailbox && self::isMailboxApiEnabled( $mailbox ) ) {
             $settings = self::getMailboxSettings( $mailbox );
@@ -147,12 +145,13 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             $password = config('pmpro.password');
         }
 
-        $request_url = $url . 'wp-json/pmpro-support/v1/get-customer-info/';
+        $request_url = $url . 'wp-json/pmpro_bbpst/v1/get-customer-info/';
 
         // Get data via REST API and return it.
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $request_url. '?user_email=' . $customer_email );
+            curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
             curl_setopt($ch, CURLOPT_TIMEOUT, 10);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -166,7 +165,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             if ( $status_code == 200 ) {
                 $response['data'] = json_decode( $results );
             } else {
-                $response['error'] = json_decode( $results );
+                $response['error'] = self::errorCodeDescr( $status_code );
             }
         } catch ( Exception $e ) {
             $response['error'] = $e->getMessage();
@@ -207,6 +206,38 @@ class PmproFreescoutServiceProvider extends ServiceProvider
 
         return 'https://'.$url;
     }
+
+    /**
+     * Function to decode REST API response codes and output an error for us.
+     * 
+     * @return string Returns human readable error message if status isn't 200 for the API Request.
+     */
+    public static function errorCodeDescr($code) {
+
+        switch ($code) {
+            case 400:
+                $descr = __('Bad request');
+                break;
+            case 401:
+            case 403:
+                $descr = __('Authentication or permission error, e.g. incorrect API keys or your store is protected with Basic HTTP Authentication');
+                break;
+            case 0:
+            case 404:
+                $descr = __('Store not found at the specified URL');
+                break;
+            case 500:
+                $descr = __('Internal store error');
+                break;
+            default:
+                $descr = __('Unknown error');
+                break;
+        }
+
+        return $descr;
+    }
+
+
     /**
      * Register the service provider.
      *
