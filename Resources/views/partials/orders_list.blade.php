@@ -31,7 +31,9 @@
             {{ __("No") }}
             @endif
             </li>
+            @if ( $results->refunds_total_found > 0 )
             <li><strong>Num. Refunds:</strong> {{$results->refunds_total_found}}</li>
+            @endif
             <li><strong>User Notes:</strong> {{$results->pmpro_user_notes}}</li>
         </ul>
         @elseif( $error )
