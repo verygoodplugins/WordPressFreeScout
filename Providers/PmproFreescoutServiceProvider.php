@@ -131,22 +131,22 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             'data' => [],
         ];
 
-        // Get settings from database or from config.
-        if ( $mailbox && self::isMailboxApiEnabled( $mailbox ) ) {
-            $settings = self::getMailboxSettings( $mailbox );
+		// Get settings from database or from config.
+		if ( $mailbox && self::isMailboxApiEnabled( $mailbox ) ) {
+			$settings = self::getMailboxSettings( $mailbox );
 
-            $url = self::getSanitizedUrl( $settings['url'] );
-            $username = $settings['username'];
-            $password = $settings['password'];
+			$url = self::getSanitizedUrl( $settings['url'] );
+			$username = $settings['username'];
+			$password = $settings['password'];
 
 			$cache_key = 'pmpro_orders_' . $mailbox->id . '_' . $customer_email;
-        } else {
-            $url = self::getSanitizedUrl( config('pmpro.url') );
-            $username = config('pmpro.username');
-            $password = config('pmpro.password');
+		} else {
+			$url = self::getSanitizedUrl( config('pmpro.url') );
+			$username = config('pmpro.username');
+			$password = config('pmpro.password');
 
 			$cache_key = 'pmpro_orders_' . $customer_email;
-        }
+		}
 
 		// Check to see if the request is cached already.
 		$cached_member_info = \Cache::get( $cache_key );
@@ -178,7 +178,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
                 $response['data'] = json_decode( $results );
 
 				// Cache request data for 60 minutes.
-			    \Cache::put( $cache_key, $response['data'], now()->addMinutes( 60 ) );
+				\Cache::put( $cache_key, $response['data'], now()->addMinutes( 60 ) );
             } else {
                 $response['error'] = self::errorCodeDescr( $status_code );
             }
