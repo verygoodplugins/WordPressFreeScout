@@ -37,7 +37,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
      */
     public function hooks()
     {
-        
+
         //Add Mailbox Menu Items
         \Eventy::addAction('mailboxes.settings.menu', function($mailbox) {
             if (auth()->user()->isAdmin()) {
@@ -47,7 +47,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
 
         // Section parameters.
         \Eventy::addFilter('settings.section_params', function($params, $section) {
-           
+
             if ($section != PMPRO_MODULE) {
                 return $params;
             }
@@ -69,7 +69,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
 
          // Section settings.
          \Eventy::addFilter('settings.section_settings', function($settings, $section) {
-           
+
             if ($section != PMPRO_MODULE) {
                 return $settings;
             }
@@ -81,11 +81,11 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             return $settings;
         }, 20, 2);
 
-        \Eventy::addAction('conversation.after_prev_convs', function($customer, $conversation, $mailbox) { 
+        \Eventy::addAction('conversation.after_prev_convs', function($customer, $conversation, $mailbox) {
 
             $results = [];
             $load = false;
-            
+
             $customer_email = $customer->getMainEmail();
 
             if (!$customer_email) {
@@ -125,7 +125,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
     /**
      * Get customer information for the customer based off their email address
      */
-    public static function apiGetMemberInfo($customer_email, $mailbox = null) {
+    public static function apiGetMemberInfo($customer_email, $mailbox = null, $force_refresh = false) {
         $response = [
             'error' => '',
             'data' => [],
@@ -139,11 +139,23 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             $username = $settings['username'];
             $password = $settings['password'];
 
+            $cache_key = 'pmpro_orders_' . $mailbox->id . '_' . $customer_email;
         } else {
             $url = self::getSanitizedUrl( config('pmpro.url') );
             $username = config('pmpro.username');
             $password = config('pmpro.password');
+
+            $cache_key = 'pmpro_orders_' . $customer_email;
         }
+
+		// Check to see if the request is cached already.
+        $cached_member_info = \Cache::get( $cache_key );
+
+		if ( $cached_member_info && ! $force_refresh ) {
+			$response['data'] = $cached_member_info;
+
+			return $response;
+		}
 
         $request_url = $url . 'wp-json/pmpro_bbpst/v1/get-customer-info/';
 
@@ -164,12 +176,15 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             // If the request was okay, get data otherwise let's get an error yo!
             if ( $status_code == 200 ) {
                 $response['data'] = json_decode( $results );
+
+				// Cache request data for 60 minutes.
+			    \Cache::put( $cache_key, $response['data'], now()->addMinutes( 60 ) );
             } else {
                 $response['error'] = self::errorCodeDescr( $status_code );
             }
         } catch ( Exception $e ) {
             $response['error'] = $e->getMessage();
-        }          
+        }
 
         return $response;
     }
@@ -179,7 +194,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
      * @return boolean Returns true if settings are stored.
      */
     public static function isMailboxApiEnabled($mailbox) {
-        
+
         if (empty($mailbox) || empty($mailbox->meta['pmpro'])) {
             return false;
         }
@@ -209,7 +224,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
 
     /**
      * Function to decode REST API response codes and output an error for us.
-     * 
+     *
      * @return string Returns human readable error message if status isn't 200 for the API Request.
      */
     public static function errorCodeDescr($code) {
