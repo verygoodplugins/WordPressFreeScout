@@ -139,17 +139,17 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             $username = $settings['username'];
             $password = $settings['password'];
 
-            $cache_key = 'pmpro_orders_' . $mailbox->id . '_' . $customer_email;
+			$cache_key = 'pmpro_orders_' . $mailbox->id . '_' . $customer_email;
         } else {
             $url = self::getSanitizedUrl( config('pmpro.url') );
             $username = config('pmpro.username');
             $password = config('pmpro.password');
 
-            $cache_key = 'pmpro_orders_' . $customer_email;
+			$cache_key = 'pmpro_orders_' . $customer_email;
         }
 
 		// Check to see if the request is cached already.
-        $cached_member_info = \Cache::get( $cache_key );
+		$cached_member_info = \Cache::get( $cache_key );
 
 		if ( $cached_member_info && ! $force_refresh ) {
 			$response['data'] = $cached_member_info;
