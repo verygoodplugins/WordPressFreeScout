@@ -23,7 +23,7 @@
             @endif
             )
             </li>
-            <li><strong>Key:</strong> {{$results->license}} </li>
+            <li style="font-size:11px;"><strong>Key:</strong> {{$results->license}} </li>
             <li><strong>Refunded:</strong> @if( $results->refunds_last_order_id )
             <span style="color:red;">{{ __("Yes") }}</span>
             ( <a href="{{$url}}wp-admin/admin.php?page=pmpro-orders&order={{$results->refunds_last_order_id}}" target="_blank">#{{$results->refunds_last_order_id}}</a> )
