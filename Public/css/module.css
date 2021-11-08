@@ -1,0 +1,21 @@
+#pmpro-loader {
+	display: none;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	text-align: center;
+}
+.pmpro-loading #pmpro-loader {
+	display: block;
+} 
+.pmpro-loading .pmpro-actions,
+.pmpro-loading .pmpro-orders-list,
+.pmpro-loading .pmpro-no-orders {
+	display: none;
+}
+
+.pmpro-orders-list li {
+	margin-top: 3px;
+	margin-bottom: 3px;
+	padding-bottom: 3px;
+	border-bottom: 1px solid #E3E8EB;
+}

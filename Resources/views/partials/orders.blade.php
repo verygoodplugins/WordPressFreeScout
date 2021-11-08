@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<!-- @section('javascript')
+@section('javascript')
     @parent
-    initEdd('{{ $customer_email }}', {{ (int)$load }});
-@endsection -->
+    initPMPro('{{ $customer_email }}', {{ (int)$load }});
+@endsection

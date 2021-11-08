@@ -53,8 +53,38 @@ class PmproFreescoutController extends Controller
 
     /**
      * Ajax function to get updated orders from API.
-     * TODO
      */
-    
+    public function ajax(Request $request) {
 
+        $response = [
+            'status' => 'error',
+            'msg'    => '', // this is error message
+        ];
+
+        switch( $request->action ) {
+            case 'orders':
+                // Get orders and stuff.
+                // Get the Mailbox
+                $mailbox = null;
+                if ( $request->mailbox_id ) {
+                    $mailbox = Mailbox::find( $request->mailbox_id );
+                }
+
+                $settings = \PMProFreescout::getMailboxSettings( $mailbox );
+                $results = \PMProFreescout::apiGetMemberInfo( $request->customer_email, $mailbox, true ); //Force to get uncached data!
+
+                $response['html'] = \View::make('pmprofreescout::partials/orders', [
+                    'results'        => $results['data'],
+                    'error'          => $results['error'],
+                    'customer_email' => $request->customer_email,
+                    'load'           => false,
+                    'url'            => \PMProFreescout::getSanitizedUrl( $settings['url'] ),
+                ])->render();
+
+                $response['status'] = 'success';
+                break;
+        }
+        return \Response::json($response);
+    }
+   
 } //End of Class

@@ -9,9 +9,9 @@
 <div class="pmpro-collapse-orders panel-collapse collapse in">
     <div class="panel-body">
         <div class="sidebar-block-header2"><strong>Paid Memberships Pro</strong> (<a data-toggle="collapse" href=".pmpro-collapse-orders">{{ __('close') }}</a>)</div>
-       	<!-- <div id="pmpro-loader">
+       	<div id="pmpro-loader">
         	<img src="{{ asset('img/loader-tiny.gif') }}" />
-        </div> -->
+        </div>
         @if( $results )
         <ul class="sidebar-block-list pmpro-orders-list">
             <li><strong>Username:</strong> <a href="{{$url}}forums/users/{{$results->user_login}}" target="_blank">{{$results->user_login}}</a></li>
@@ -43,10 +43,10 @@
         @endif
 
         @if( $results )
-            <div class="margin-top-10 small pmpro-actions">
+            <div class="margin-top-10 small pmpro-actions text-center">
                 <a href="#" class="sidebar-block-link pmpro-refresh"><i class="glyphicon glyphicon-refresh"></i> {{ __("Refresh") }}</a>
-                | <a href="{{ $url }}wp-admin/user-edit.php?user_id={{ $results->user_id }}" class="sidebar-block-link" target="_blank">View WP User</a> |
-                <a href="{{ $url }}wp-admin/admin.php?page=pmpro-orders&filter=all&&s={{ $customer_email }}" class="sidebar-block-link" target="_blank">View All Orders</a>
+                | <a href="{{$url}}wp-admin/user-edit.php?user_id={{ $results->user_id }}" class="sidebar-block-link" target="_blank">Edit User</a> |
+                <a href="{{$url}}wp-admin/admin.php?page=pmpro-orders&filter=all&&s={{ $customer_email }}" class="sidebar-block-link" target="_blank">View All Orders</a>
             </div>
         @endif
         

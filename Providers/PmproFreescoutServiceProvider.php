@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
 //Module Alias
-define( 'PMPRO_MODULE', 'pmpro' );
+define( 'PMPRO_MODULE', 'PMProFreescout' );
 
 class PmproFreescoutServiceProvider extends ServiceProvider
 {
@@ -37,6 +37,18 @@ class PmproFreescoutServiceProvider extends ServiceProvider
      */
     public function hooks()
     {
+        // Add module's JS file to the application layout.
+        \Eventy::addFilter('javascripts', function($javascripts) {
+            $javascripts[] = \Module::getPublicPath(PMPRO_MODULE).'/js/laroute.js';
+            $javascripts[] = \Module::getPublicPath(PMPRO_MODULE).'/js/module.js';
+                return $javascripts;
+        });
+
+        // Add module's CSS file to the application layout.
+        \Eventy::addFilter('stylesheets', function($styles) {
+            $styles[] = \Module::getPublicPath(PMPRO_MODULE).'/css/module.css';
+                return $styles;
+        });
 
         //Add Mailbox Menu Items
         \Eventy::addAction('mailboxes.settings.menu', function($mailbox) {
@@ -83,8 +95,10 @@ class PmproFreescoutServiceProvider extends ServiceProvider
 
         \Eventy::addAction('conversation.after_prev_convs', function($customer, $conversation, $mailbox) {
 
-            $results = [];
-            $load = false;
+            $results = [
+                "data" => [],
+                "error" => []
+            ];
 
             $customer_email = $customer->getMainEmail();
 
@@ -98,15 +112,16 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             }
 
             $settings = \PMProFreescout::getMailboxSettings($mailbox);
-
-            $results = self::apiGetMemberInfo($customer_email, $mailbox );
+            
+            // Get the data, this handles the caching for us. Let's not force it to get uncached data that's what refresh is for.
+            $results = self::apiGetMemberInfo( $customer_email, $mailbox );
 
             echo \View::make('pmprofreescout::partials/orders', [
                 'results'        => $results['data'],
-                'error'         => $results['error'],
+                'error'          => $results['error'],
                 'customer_email' => $customer_email,
-                'load'           => $load,
-                'url'            => \PMProFreescout::getSanitizedUrl( $settings['url']),
+                'load'           => false,
+                'url'            => \PMProFreescout::getSanitizedUrl( $settings['url'] ),
             ])->render();
         }, 12, 3 );
     }
@@ -178,7 +193,8 @@ class PmproFreescoutServiceProvider extends ServiceProvider
                 $response['data'] = json_decode( $results );
 
 				// Cache request data for 60 minutes.
-				\Cache::put( $cache_key, $response['data'], now()->addMinutes( 60 ) );
+                // Cache request data for 60 minutes.
+                \Cache::put( $cache_key, $response['data'], now()->addMinutes( 60 ) );
             } else {
                 $response['error'] = self::errorCodeDescr( $status_code );
             }
