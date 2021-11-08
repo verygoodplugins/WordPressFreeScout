@@ -193,7 +193,6 @@ class PmproFreescoutServiceProvider extends ServiceProvider
                 $response['data'] = json_decode( $results );
 
 				// Cache request data for 60 minutes.
-                // Cache request data for 60 minutes.
                 \Cache::put( $cache_key, $response['data'], now()->addMinutes( 60 ) );
             } else {
                 $response['error'] = self::errorCodeDescr( $status_code );
