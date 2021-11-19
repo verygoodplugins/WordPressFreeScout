@@ -172,7 +172,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
 			return $response;
 		}
 
-        $request_url = $url . 'wp-json/pmpro_bbpst/v1/get-customer-info/';
+        $request_url = $url . 'wp-json/bbpress-support/v1/get-customer-info/';
 
         // Get data via REST API and return it.
         try {
