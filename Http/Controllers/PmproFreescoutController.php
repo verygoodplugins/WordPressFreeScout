@@ -17,7 +17,7 @@ class PmproFreescoutController extends Controller
         // Find the mailbox ID.
         $mailbox = Mailbox::findOrFail($id);
 
-       $settings = \PMProFreescout::getMailboxSettings($mailbox);
+       $settings = \PmproFreescout::getMailboxSettings($mailbox);
 
         return view('pmprofreescout::mailbox_settings', [
             'settings' => [
@@ -70,15 +70,15 @@ class PmproFreescoutController extends Controller
                     $mailbox = Mailbox::find( $request->mailbox_id );
                 }
 
-                $settings = \PMProFreescout::getMailboxSettings( $mailbox );
-                $results = \PMProFreescout::apiGetMemberInfo( $request->customer_email, $mailbox, true ); //Force to get uncached data!
+                $settings = \PmproFreescout::getMailboxSettings( $mailbox );
+                $results = \PmproFreescout::apiGetMemberInfo( $request->customer_email, $mailbox, true ); //Force to get uncached data!
 
                 $response['html'] = \View::make('pmprofreescout::partials/orders', [
                     'results'        => $results['data'],
                     'error'          => $results['error'],
                     'customer_email' => $request->customer_email,
                     'load'           => false,
-                    'url'            => \PMProFreescout::getSanitizedUrl( $settings['url'] ),
+                    'url'            => \PmproFreescout::getSanitizedUrl( $settings['url'] ),
                 ])->render();
 
                 $response['status'] = 'success';
@@ -86,5 +86,5 @@ class PmproFreescoutController extends Controller
         }
         return \Response::json($response);
     }
-   
+
 } //End of Class
