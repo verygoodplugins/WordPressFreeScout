@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
 //Module Alias
-define( 'PMPRO_MODULE', 'PMProFreescout' );
+define( 'PMPRO_MODULE', 'pmprofreescout' );
 
 class PmproFreescoutServiceProvider extends ServiceProvider
 {
@@ -107,12 +107,12 @@ class PmproFreescoutServiceProvider extends ServiceProvider
             }
 
             // Make sure that we have settings for authentication.
-            if (!\PMProFreescout::isMailboxApiEnabled($mailbox)) {
+            if (!\PmproFreescout::isMailboxApiEnabled($mailbox)) {
                 return;
             }
 
-            $settings = \PMProFreescout::getMailboxSettings($mailbox);
-            
+            $settings = \PmproFreescout::getMailboxSettings($mailbox);
+
             // Get the data, this handles the caching for us. Let's not force it to get uncached data that's what refresh is for.
             $results = self::apiGetMemberInfo( $customer_email, $mailbox );
 
@@ -121,7 +121,7 @@ class PmproFreescoutServiceProvider extends ServiceProvider
                 'error'          => $results['error'],
                 'customer_email' => $customer_email,
                 'load'           => false,
-                'url'            => \PMProFreescout::getSanitizedUrl( $settings['url'] ),
+                'url'            => \PmproFreescout::getSanitizedUrl( $settings['url'] ),
             ])->render();
         }, 12, 3 );
     }

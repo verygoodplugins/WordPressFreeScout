@@ -16,7 +16,7 @@
         "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
     ],
     "aliases": {
-        "PMProFreescout": "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
+        "PmproFreescout": "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
     },
     "files": [
         "start.php"
