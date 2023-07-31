@@ -11,7 +11,7 @@
     "keywords": [],
     "active": 0,
     "order": 0,
-    "img": "https://www.paidmembershipspro.com/images/Paid-Memberships-Pro_icon_shiny_72DPI.png",
+    "img": "https://www.paidmembershipspro.com/images/2022/Paid-Memberships-Pro_icon_72DPI.png",
     "providers": [
         "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
     ],
