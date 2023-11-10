@@ -20,7 +20,7 @@ class ComposerStaticInite6a098e7c604137c60e028fde9bb1cc9
         ),
         'M' => 
         array (
-            'Modules\\PmproFreescout\\' => 23,
+            'Modules\\WordPressFreeScout\\' => 23,
         ),
         'G' => 
         array (
@@ -40,7 +40,7 @@ class ComposerStaticInite6a098e7c604137c60e028fde9bb1cc9
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'Modules\\PmproFreescout\\' => 
+        'Modules\\WordPressFreeScout\\' => 
         array (
             0 => __DIR__ . '/../..' . '/',
         ),

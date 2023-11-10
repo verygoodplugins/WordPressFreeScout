@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\PmproFreescout\Database\Seeders;
+namespace Modules\WordPressFreeScout\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class PmproFreescoutDatabaseSeeder extends Seeder
+class WordPressFreeScoutDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -1,17 +1,17 @@
 <form class="form-horizontal margin-top margin-bottom" method="POST" action="">
     {{ csrf_field() }}
 
-    <div class="form-group{{ $errors->has('settings.pmpro->url') ? ' has-error' : '' }}">
+    <div class="form-group{{ $errors->has('settings.wordpress->url') ? ' has-error' : '' }}">
         <label class="col-sm-2 control-label">{{ __('Site URL') }}</label>
 
         <div class="col-sm-6">
             <div class="input-group input-sized-lg">
                 <span class="input-group-addon input-group-addon-grey">https://</span>
-                <input type="text" class="form-control input-sized-lg" name="settings[pmpro.url]" value="{{ old('settings') ? old('settings')['pmpro.url'] : $settings['pmpro.url'] }}">
+                <input type="text" class="form-control input-sized-lg" name="settings[wordpress.url]" value="{{ old('settings') ? old('settings')['wordpress.url'] : $settings['wordpress.url'] }}">
             </div>
 
             <p class="form-help">
-                {{ __('Example') }}: www.paidmembershipspro.com
+                {{ __('Example') }}: www.wpfusion.com
             </p>
         </div>
     </div>
@@ -20,7 +20,7 @@
         <label class="col-sm-2 control-label">{{ __('Username') }}</label>
 
         <div class="col-sm-6">
-            <input type="text" class="form-control input-sized-lg" name="settings[pmpro.username]" value="{{ $settings['pmpro.username'] }}">
+            <input type="text" class="form-control input-sized-lg" name="settings[wordpress.username]" value="{{ $settings['wordpress.username'] }}">
         </div>
     </div>
 
@@ -28,7 +28,7 @@
         <label class="col-sm-2 control-label">{{ __('Application Password') }}</label>
 
         <div class="col-sm-6">
-            <input type="password" class="form-control input-sized-lg" name="settings[pmpro.password]" value="{{ $settings['pmpro.password'] }}">
+            <input type="password" class="form-control input-sized-lg" name="settings[wordpress.password]" value="{{ $settings['wordpress.password'] }}">
 
             <p class="form-help">
                 {{ __("You can generate an Application password by following this guide - ") }}<br/>

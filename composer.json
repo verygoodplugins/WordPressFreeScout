@@ -1,5 +1,5 @@
 {
-    "name": "freescout/pmprofreescout",
+    "name": "freescout/wordpressfreescout",
     "description": "",
     "authors": [
         {
@@ -10,7 +10,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
+                "Modules\\WordPressFreeScout\\Providers\\WordPressFreeScoutServiceProvider"
             ],
             "aliases": {
                 
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\PmproFreescout\\": ""
+            "Modules\\WordPressFreeScout\\": ""
         }
     },
     "require": {

@@ -1,22 +1,22 @@
 {
-    "name": "Paid Memberships Pro",
-    "alias": "pmprofreescout",
-    "description": "Links Paid Memberships Pro order details into freescout widget via REST API.",
+    "name": "WordPress",
+    "alias": "wordpressfreescout",
+    "description": "Links WordPress order details into FreeScout widget via REST API.",
     "version": "1.0.0",
-    "detailsUrl": "https://strangerstudios.com",
-    "author": "Stranger Studios",
-    "authorUrl": "https://strangerstudios.com",
+    "detailsUrl": "https://verygoodplugins.com.com",
+    "author": "Very Good Plugins",
+    "authorUrl": "https://verygoodplugins.com.com",
     "requiredAppVersion": "1.0.2",
     "license": "AGPL-2.0",
     "keywords": [],
     "active": 0,
     "order": 0,
-    "img": "https://www.paidmembershipspro.com/images/2022/Paid-Memberships-Pro_icon_72DPI.png",
+    "img": "https://wpfusion.com/wp-content/uploads/2019/08/logo-mark-500w.png",
     "providers": [
-        "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
+        "Modules\\WordPressFreeScout\\Providers\\WordPressFreeScoutServiceProvider"
     ],
     "aliases": {
-        "PmproFreescout": "Modules\\PmproFreescout\\Providers\\PmproFreescoutServiceProvider"
+        "WordPressFreeScout": "Modules\\WordPressFreeScout\\Providers\\WordPressFreeScoutServiceProvider"
     },
     "files": [
         "start.php"

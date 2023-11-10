@@ -10,7 +10,7 @@
 @section('content')
 
     <div class="section-heading">
-        Paid Memberships Pro - Freescout Application
+        WordPress - Freescout Application
     </div>
 
     <!-- @include('partials/flash_messages') -->
@@ -18,7 +18,7 @@
  	<div class="row-container">
         <div class="row">
             <div class="col-xs-12">
-                @include('pmprofreescout::settings')
+                @include('wordpressfreescout::settings')
             </div>
         </div>
     </div>

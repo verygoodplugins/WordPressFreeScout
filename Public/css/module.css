@@ -1,21 +1,112 @@
-#pmpro-loader {
+#wordpress-loader {
 	display: none;
 	margin-top: 10px;
 	margin-bottom: 5px;
 	text-align: center;
 }
-.pmpro-loading #pmpro-loader {
+.wordpress-loading #wordpress-loader {
 	display: block;
 } 
-.pmpro-loading .pmpro-actions,
-.pmpro-loading .pmpro-orders-list,
-.pmpro-loading .pmpro-no-orders {
+.wordpress-loading .wordpress-actions,
+.wordpress-loading .wordpress-orders-list,
+.wordpress-loading .wordpress-no-orders {
 	display: none;
 }
 
-.pmpro-orders-list li {
+#wordpress-freescout .wordpress-orders-list li {
 	margin-top: 3px;
 	margin-bottom: 3px;
-	padding-bottom: 3px;
-	border-bottom: 1px solid #E3E8EB;
+	padding-bottom: 6px;
+	padding-left: 2px;
+	font-size: 14px;
+}
+
+#wordpress-freescout .sidebar-block-list li .glyphicon {
+	margin-right: 6px;
+	margin-left: 0;
+}
+
+#wordpress-freescout .sidebar-block-list li label {
+	display: block;
+	opacity: 0.6;
+	font-size: 12px;
+	line-height: 14px;
+	margin-bottom: 2px;
+}
+
+#wordpress-freescout .sidebar-block-list li label + span.label {
+	display: inline-block;
+    margin-top: 2px;
+}
+
+#wordpress-freescout h5 {
+	border-top: 1px solid #ddd;
+    padding-top: 12px;
+}
+
+#wordpress-freescout h5 .glyphicon {
+	color: #93a1b0;
+}
+
+#wordpress-freescout ul.label-cloud {
+	list-style: none;
+	padding-left: 0;
+}
+
+#wordpress-freescout ul.label-cloud > li {
+	display: inline-block;
+	margin-right: 3px;
+}
+
+#wordpress-freescout ul.label-cloud span.label {
+	font-size: 10px;
+    font-weight: 500;
+}
+
+#wordpress-freescout ul.edd-orders-list > li {
+    margin-bottom: 10px;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px #eee;
+    padding: 5px 10px;
+}
+
+#wordpress-freescout ul.edd-orders-list li span.label {
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 500;
+	margin-right: 5px;
+}
+
+#wordpress-freescout ul.edd-orders-list li span.label i.glyphicon {
+	float: none;
+	color: #fff;
+	font-size: 10px;
+	vertical-align: middle;
+    margin-right: 2px;
+    top: -1px;
+    margin-top: 0;
+}
+
+#wordpress-freescout ul.edd-orders-list li code {
+	font-size: 11px;
+    margin: 5px 0;
+    display: block;
+}
+
+#wordpress-freescout ul.edd-orders-list ul.edd-order-items-list {
+	padding-left: 16px;;
+	margin-top: 5px;
+}
+
+#wordpress-freescout ul.edd-orders-list ul.edd-order-items-list > li {
+	padding-left: 0px;
+	font-size: 11px;
+}
+
+#wordpress-freescout ul.edd-orders-list .edd-order-meta {
+	font-size: 10px;
+	background-color: #f2f6f9;
+	padding: 2px 12px;
+	margin: 10px -10px -5px;
 }

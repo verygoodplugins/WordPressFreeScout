@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'name' => 'pmpro',
-    'url' => env('PMPRO_URL', ''),
-    'username' => env('PMPRO_USERNAME', ''),
-    'password' => env('PMPRO_PASSWORD', ''),
+    'name' => 'wordpress',
+    'url' => env('WP_URL', ''),
+    'username' => env('WP_USERNAME', ''),
+    'password' => env('WP_PASSWORD', ''),
 ];

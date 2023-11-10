@@ -1,29 +1,29 @@
 <?php
 
-namespace Modules\PmproFreescout\Http\Controllers;
+namespace Modules\WordPressFreeScout\Http\Controllers;
 
 use App\Mailbox;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-class PmproFreescoutController extends Controller
+class WordPressFreeScoutController extends Controller
 {
 
     /**
-     * Function to show the settings page for Paid Memberships Pro authentication.
+     * Function to show the settings page for WordPress authentication.
      */
     public function mailboxSettings($id) {
         // Find the mailbox ID.
         $mailbox = Mailbox::findOrFail($id);
 
-       $settings = \PmproFreescout::getMailboxSettings($mailbox);
+       $settings = \WordPressFreeScout::getMailboxSettings($mailbox);
 
-        return view('pmprofreescout::mailbox_settings', [
+        return view('wordpressfreescout::mailbox_settings', [
             'settings' => [
-                'pmpro.url' => $settings['url'] ?? '',
-                'pmpro.username' => $settings['username'] ?? '',
-                'pmpro.password' => $settings['password'] ?? '',
+                'wordpress.url' => $settings['url'] ?? '',
+                'wordpress.username' => $settings['username'] ?? '',
+                'wordpress.password' => $settings['password'] ?? '',
             ],
             'mailbox' => $mailbox
         ]);
@@ -40,15 +40,15 @@ class PmproFreescoutController extends Controller
 
         if (!empty($settings)) {
             foreach ($settings as $key => $value) {
-                $settings[str_replace('pmpro.', '', $key)] = $value;
+                $settings[str_replace('wordpress.', '', $key)] = $value;
                 unset($settings[$key]);
             }
         }
 
-        $mailbox->setMetaParam('pmpro', $settings);
+        $mailbox->setMetaParam('wordpress', $settings);
         $mailbox->save();
 
-        return redirect()->route('mailboxes.pmprofreescout', ['id' => $id]);
+        return redirect()->route('mailboxes.wordpressfreescout', ['id' => $id]);
     }
 
     /**
@@ -70,15 +70,15 @@ class PmproFreescoutController extends Controller
                     $mailbox = Mailbox::find( $request->mailbox_id );
                 }
 
-                $settings = \PmproFreescout::getMailboxSettings( $mailbox );
-                $results = \PmproFreescout::apiGetMemberInfo( $request->customer_email, $mailbox, true ); //Force to get uncached data!
+                $settings = \WordPressFreeScout::getMailboxSettings( $mailbox );
+                $results = \WordPressFreeScout::apiGetMemberInfo( $request->customer_email, $mailbox, true ); //Force to get uncached data!
 
-                $response['html'] = \View::make('pmprofreescout::partials/orders', [
+                $response['html'] = \View::make('wordpressfreescout::partials/orders', [
                     'results'        => $results['data'],
                     'error'          => $results['error'],
                     'customer_email' => $request->customer_email,
                     'load'           => false,
-                    'url'            => \PmproFreescout::getSanitizedUrl( $settings['url'] ),
+                    'url'            => \WordPressFreeScout::getSanitizedUrl( $settings['url'] ),
                 ])->render();
 
                 $response['status'] = 'success';

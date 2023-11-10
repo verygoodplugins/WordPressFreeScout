@@ -1,9 +1,9 @@
-@extends('pmprofreescout::layouts.master')
+@extends('wordpressfreescout::layouts.master')
 
 @section('content')
     <h1>Hello World</h1>
 
     <p>
-        This view is loaded from module: {!! config('pmprofreescout.name') !!}
+        This view is loaded from module: {!! config('wordpressfreescout.name') !!}
     </p>
 @stop

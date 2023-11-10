@@ -1,1 +1,0 @@
-<li @if (Route::is('mailboxes.pmprofreescout'))class="active"@endif><a href="{{ route('mailboxes.pmprofreescout', ['id'=>$mailbox->id]) }}"><i class="glyphicon glyphicon-user"></i> Paid Memberships Pro</a></li>

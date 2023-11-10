@@ -1,44 +1,44 @@
 /**
  * Module's JavaScript.
  */
- var pmpro_customer_email = '';
+ var wordpress_customer_email = '';
 
  // Initialize the JS
 function initPMPro(customer_email, load) {
-    pmpro_customer_email = customer_email;
+    wordpress_customer_email = customer_email;
 
     $(document).ready(function(){
 
         if (load) {
-            pmproLoadOrders();
+            wordpressLoadOrders();
         }
 
-        $('.pmpro-refresh').click(function(e) {
-            pmproLoadOrders();
+        $('.wordpress-refresh').click(function(e) {
+            wordpressLoadOrders();
             e.preventDefault();
         });
     });
 }
  
- function pmproLoadOrders()
+ function wordpressLoadOrders()
  {
-     $('#pmpro-orders').addClass('pmpro-loading');
+     $('#wordpress-orders').addClass('wordpress-loading');
  
      fsAjax({
              action: 'orders',
-             customer_email: pmpro_customer_email,
+             customer_email: wordpress_customer_email,
              mailbox_id: getGlobalAttr('mailbox_id')
          }, 
-         laroute.route('pmpro.ajax'), 
+         laroute.route('wordpress.ajax'), 
          function(response) {
              if (typeof(response.status) != "undefined" && response.status == 'success'
                  && typeof(response.html) != "undefined" && response.html
              ) {
-                 $('#pmpro-orders').html(response.html);
-                 $('#pmpro-orders').removeClass('pmpro-loading');
+                 $('#wordpress-orders').html(response.html);
+                 $('#wordpress-orders').removeClass('wordpress-loading');
  
-                 $('.pmpro-refresh').click(function(e) {
-                     pmproLoadOrders();
+                 $('.wordpress-refresh').click(function(e) {
+                     wordpressLoadOrders();
                      e.preventDefault();
                  });
              } else {

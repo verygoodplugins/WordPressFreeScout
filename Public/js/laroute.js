@@ -1,8 +1,8 @@
 (function () {
     var module_routes = [
     {
-        "uri": "pmpro\/ajax",
-        "name": "pmpro.ajax"
+        "uri": "wordpress\/ajax",
+        "name": "wordpress.ajax"
     }
 ];
 
