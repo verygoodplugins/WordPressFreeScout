@@ -64,11 +64,11 @@
 }
 
 #wordpress-freescout ul.edd-orders-list > li {
-    margin-bottom: 10px;
     border: 1px solid #dedede;
     border-radius: 5px;
     box-shadow: 1px 1px 3px #eee;
     padding: 5px 10px;
+	margin: 4px -8px;
 }
 
 #wordpress-freescout ul.edd-orders-list li span.label {

@@ -91,7 +91,7 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 				$test_response = self::apiWordPressCall( 'wp/v2/users/me', [], self::API_METHOD_GET );
 
 				if (!empty($test_response['message'])) {
-					\Helper::log('wordpressfreescout', 'Error occurred checking API credentials: '.json_encode($test_response) ?? '');
+					\Helper::log('feature_requests_errors', 'Error occurred checking API credentials: '.json_encode($test_response) ?? '');
 				}
 
 				if (!isset($test_response['code']) && (!isset($test_response['status']) || $test_response['status'] != 'error')) {
@@ -244,6 +244,12 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 
 			if (empty($response) && $status != 204 && $status != 200 && $status != 201) {
 				throw new \Exception(__('Empty API response. Check your credentials. HTTP status code: :status', ['status' => $status]), 1);
+			} elseif ($status == 404) {
+				return [
+					'data'   => false, 
+					'status' => 'error',
+					'error'  => __('No matching user found.'),
+				];
 			} elseif ($status == 204) {
 				return [
 					'status' => 'success',

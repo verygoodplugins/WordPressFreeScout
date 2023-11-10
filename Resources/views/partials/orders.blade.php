@@ -30,109 +30,110 @@
 								@endif
 							</li>
 						</ul>
+				
+						<h5><i class="glyphicon glyphicon-cog"></i> Active Integrations</h5>
+
+						<ul class="label-cloud">
+							@foreach( $results->integrations as $integration )
+								<li><span class="label label-primary">{{ strtoupper(str_replace('-', ' ', $integration ) ) }}</span></li>
+							@endforeach
+						</ul>
+
+						<h5><i class="glyphicon glyphicon-tag"></i> {{ $results->crm_name }} Tags</h5>
+
+						<ul class="label-cloud">
+							@foreach( $results->tags as $tag )
+								<li><span class="label label-info">{{ strtoupper( $tag ) }}</span></li>
+							@endforeach
+						</ul>
+
+						<h5><i class="glyphicon glyphicon-shopping-cart"></i> EDD Orders</h5>
+
+						@if( $results->edd_orders )
+							<ul class="sidebar-block-list edd-orders-list list-group">
+								@foreach( $results->edd_orders as $order )
+									<li class="list-group-item">
+										@if ( $order->is_refunded ) 
+											<span class="label label-danger"><i class="glyphicon glyphicon-remove-circle"></i> Refunded</span>
+										@elseif ( $order->is_renewal )
+											<span class="label label-primary"><i class="glyphicon glyphicon-refresh"></i> Renewal</span>
+										@elseif ( $order->status == 'complete' )
+											<span class="label label-success"><i class="glyphicon glyphicon-ok-circle"></i> Complete</span>
+										@else
+											<span class="label label-default">{{ ucfirst( $order->status ) }}</span>
+										@endif
+
+										<a href="{{ $order->edit_order_url }}" target="_blank">#{{ $order->ID }}</a> -
+
+										{{ $order->purchase_amount }}
+
+										<ul class="edd-order-items-list">
+
+											@foreach( $order->products as $item )
+												<li>
+													{{ $item->name }} -
+													{{ $item->price }}
+												</li>
+											@endforeach
+
+										</ul>
+
+										<div class="edd-order-meta">
+											{{ $order->purchase_date }} - {{ $order->payment_method }}
+										</div>
+
+									</li>
+								@endforeach
+							</ul>
+						@else
+							<div class="text-help margin-top-10 edd-no-orders">{{ __("No orders found") }}</div>
+						@endif
+
+						<h5><i class="glyphicon glyphicon-credit-card"></i> EDD Licenses</h5>
+
+						@if( $results->licenses )
+							<ul class="sidebar-block-list edd-orders-list list-group">
+								@foreach( $results->licenses as $license )
+									<li class="list-group-item">
+										@if ( $license->is_active ) 
+											<span class="label label-success"><i class="glyphicon glyphicon-ok-circle"></i> Active</span>
+										@else
+											<span class="label label-warning"><i class="glyphicon glyphicon-time"></i> Expired</span>
+										@endif
+
+										<a href="{{ $license->edit_url }}" target="_blank">#{{ $license->ID }}</a>
+
+										<code>{{ $license->license_key }}</code>
+
+										<ul class="edd-order-items-list">
+
+											@foreach( $license->sites as $site )
+												<li><a href="https://{{ $site }}" target="_blank">{{ $site }}</a></li>
+											@endforeach
+
+										</ul>
+
+										<div class="edd-order-meta">
+											@if ( $license->expires )
+												Expires {{ $license->expires }}
+											@else
+												Lifetime license
+											@endif
+										</div>
+
+									</li>
+								@endforeach
+							</ul>
+						@else
+							<div class="text-help margin-top-10 edd-no-orders">{{ __("No licenses found") }}</div>
+						@endif
+
 					@elseif( $error )
 						<div class="text-help margin-top-10 edd-no-orders">{{ $error }}</div>
 					@else
 						<div class="text-help margin-top-10 edd-no-orders">{{ __("No data found") }}</div>
 					@endif
 					
-				
-					<h5><i class="glyphicon glyphicon-cog"></i> Active Integrations</h5>
-
-					<ul class="label-cloud">
-						@foreach( $results->integrations as $integration )
-							<li><span class="label label-success">{{ strtoupper(str_replace('-', ' ', $integration ) ) }}</span></li>
-						@endforeach
-					</ul>
-
-					<h5><i class="glyphicon glyphicon-tag"></i> {{ $results->active_crm }} Tags</h5>
-
-					<ul class="label-cloud">
-						@foreach( $results->tags as $tag )
-							<li><span class="label label-info">{{ strtoupper( $tag ) }}</span></li>
-						@endforeach
-					</ul>
-
-					<h5><i class="glyphicon glyphicon-shopping-cart"></i> EDD Orders</h5>
-
-					@if( $results->edd_orders )
-						<ul class="sidebar-block-list edd-orders-list list-group">
-							@foreach( $results->edd_orders as $order )
-								<li class="list-group-item">
-									@if ( $order->is_refunded ) 
-										<span class="label label-danger"><i class="glyphicon glyphicon-remove-circle"></i> Refunded</span>
-									@elseif ( $order->is_renewal )
-										<span class="label label-primary"><i class="glyphicon glyphicon-refresh"></i> Renewal</span>
-									@elseif ( $order->status == 'complete' )
-										<span class="label label-success"><i class="glyphicon glyphicon-ok-circle"></i> Complete</span>
-									@else
-										<span class="label label-default">{{ ucfirst( $order->status ) }}</span>
-									@endif
-
-									<a href="{{ $order->edit_order_url }}" target="_blank">#{{ $order->ID }}</a> -
-
-									{{ $order->purchase_amount }}
-
-									<ul class="edd-order-items-list">
-
-										@foreach( $order->products as $item )
-											<li>
-												{{ $item->name }} -
-												{{ $item->price }}
-											</li>
-										@endforeach
-
-									</ul>
-
-									<div class="edd-order-meta">
-										{{ $order->purchase_date }} - {{ $order->payment_method }}
-									</div>
-
-								</li>
-							@endforeach
-						</ul>
-					@else
-						<div class="text-help margin-top-10 edd-no-orders">{{ __("No orders found") }}</div>
-					@endif
-
-					<h5><i class="glyphicon glyphicon-credit-card"></i> EDD Licenses</h5>
-
-					@if( $results->licenses )
-						<ul class="sidebar-block-list edd-orders-list list-group">
-							@foreach( $results->licenses as $license )
-								<li class="list-group-item">
-									@if ( $license->is_active ) 
-										<span class="label label-success"><i class="glyphicon glyphicon-ok-circle"></i> Active</span>
-									@else
-										<span class="label label-warning"><i class="glyphicon glyphicon-time"></i> Expired</span>
-									@endif
-
-									<a href="{{ $license->edit_url }}" target="_blank">#{{ $license->ID }}</a>
-
-									<code>{{ $license->license_key }}</code>
-
-									<ul class="edd-order-items-list">
-
-										@foreach( $license->sites as $site )
-											<li><a href="https://{{ $site }}" target="_blank">{{ $site }}</a></li>
-										@endforeach
-
-									</ul>
-
-									<div class="edd-order-meta">
-										@if ( $license->expires )
-											Expires {{ $license->expires }}
-										@else
-											Lifetime license
-										@endif
-									</div>
-
-								</li>
-							@endforeach
-						</ul>
-					@else
-						<div class="text-help margin-top-10 edd-no-orders">{{ __("No licenses found") }}</div>
-					@endif
 
 				</div>
 

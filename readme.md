@@ -27,6 +27,12 @@ Features:
 
 ## Changelog
 
+### 1.0.1 on November 10, 2023
+
+* Fixed edit user link going to CRM contact record, not user record
+* Better 404 handling
+
+
 ### 1.0.0 on November 10, 2023
 
 - Initial release

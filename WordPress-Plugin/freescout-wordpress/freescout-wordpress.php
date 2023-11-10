@@ -2,7 +2,7 @@
 /*
 Plugin Name: FreeScout WordPress Helper
 Description: Registers a REST route to get user and order data by email.
-Version: 1.0.0
+Version: 1.0.1
 Author: verygoodplugins
 */
 
@@ -57,11 +57,12 @@ function freescout_email_to_user_callback( $request ) {
 
 	}
 
-	if ( ! $user ) {
+	if ( ! $user && ! empty( $request->get_param( 'first_name' ) ) && ! empty( $request->get_param( 'last_name' ) ) ) {
 
 		// Try by name.
 
 		$args = array(
+			'number'     => 1,
 			'meta_query' => array(
 				'relation' => 'AND',
 				array(
@@ -74,7 +75,7 @@ function freescout_email_to_user_callback( $request ) {
 					'value'   => sanitize_text_field( $request->get_param( 'last_name' ) ),
 					'compare' => 'LIKE',
 				),
-			)
+			),
 		);
 
 		$users = get_users($args);
@@ -106,9 +107,9 @@ function freescout_email_to_user_callback( $request ) {
 
 	if ( function_exists( 'wp_fusion' ) ) {
 
-		$data['crm_name'] = wp_fusion()->crm->name;
-		$data['edit_url'] = wp_fusion()->crm->get_contact_edit_url( wpf_get_contact_id( $user->ID ) );
-		$data['tags']     = wp_fusion()->user->get_tags( $user->ID );
+		$data['crm_name']     = wp_fusion()->crm->name;
+		$data['crm_edit_url'] = wp_fusion()->crm->get_contact_edit_url( wpf_get_contact_id( $user->ID ) );
+		$data['tags']         = wp_fusion()->user->get_tags( $user->ID );
 
 	}
 
