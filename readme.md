@@ -15,8 +15,7 @@ Features:
 - EDD order history including date, amount, status, and payment method
 - EDD licenses including active sites
 
-![CleanShot 2023-11-14 at 12 42 17@2x](https://github.com/verygoodplugins/WordPressFreeScout/assets/13076544/3544e0e6-a3f1-42b1-bb76-fbcec7c67a40)
-
+![CleanShot 2023-11-14 at 12 45 06@2x](https://github.com/verygoodplugins/WordPressFreeScout/assets/13076544/10afec8b-14d5-4049-ba88-b17a16a96535)
 
 ## Wish list
 
