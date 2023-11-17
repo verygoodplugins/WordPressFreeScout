@@ -180,8 +180,8 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 			$settings = \WordPressFreeScout::getMailboxSettings($mailbox);
 
 			echo \View::make('wordpressfreescout::partials/orders', [
-				'results'        => $results['data'],
-				'error'          => $results['error'],
+				'results'        => $results['data'] ?? false,
+				'error'          => $results['error'] ?? '',
 				'customer_email' => $emails[0],
 				'load'           => false,
 				'url'            => \WordPressFreeScout::getSanitizedUrl( $settings['url'] ),
