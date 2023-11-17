@@ -15,12 +15,12 @@ Features:
 - EDD order history including date, amount, status, and payment method
 - EDD licenses including active sites
 
-![CleanShot 2023-11-10 at 16 54 06@2x](https://github.com/verygoodplugins/WordPressFreeScout/assets/13076544/d8d3b856-3a9d-40c3-bec2-8f558a82054f)
-
+![CleanShot 2023-11-14 at 12 45 06@2x](https://github.com/verygoodplugins/WordPressFreeScout/assets/13076544/10afec8b-14d5-4049-ba88-b17a16a96535)
 
 ## Wish list
 
 - [ ] EDD subscriptions
+- [ ] Link to CRM contact record
 - [ ] Settings in the FreeScout admin to toggle individual fields
 - [ ] Collapsible section headers
 - [ ] EDD upgrade links
