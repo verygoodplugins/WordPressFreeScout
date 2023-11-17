@@ -205,7 +205,13 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 
 		$response = array();
 
-		$api_url = config( 'wordpress.url' ) . '/wp-json/' . $url;
+		$wordpress_url = config( 'wordpress.url' );
+
+		if ( false === strpos( $wordpress_url, 'http' ) ) {
+			$wordpress_url = 'https://' . $wordpress_url;
+		}
+
+		$api_url = $wordpress_url . '/wp-json/' . $url;
 
 		if ( ( $http_method == self::API_METHOD_GET || $http_method == self::API_METHOD_DELETE ) && ! empty( $params ) ) {
 			$api_url .= '?' . http_build_query( $params );
@@ -243,7 +249,7 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 			curl_close($ch);
 
 			if (empty($response) && $status != 204 && $status != 200 && $status != 201) {
-				throw new \Exception(__('Empty API response. Check your credentials. HTTP status code: :status', ['status' => $status]), 1);
+				throw new \Exception(__('Empty API response. Check your credentials. HTTP status code: :status. JSON response: :json. URL: :url', ['status' => $status, 'json' => $json_response, 'url' => $api_url ]), 1);
 			} elseif ($status == 404) {
 				return [
 					'data'   => false, 
