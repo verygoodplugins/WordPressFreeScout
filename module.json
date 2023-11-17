@@ -2,7 +2,7 @@
     "name": "WordPress",
     "alias": "wordpressfreescout",
     "description": "Links WordPress order details into FreeScout widget via REST API.",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "detailsUrl": "https://verygoodplugins.com.com",
     "author": "Very Good Plugins",
     "authorUrl": "https://verygoodplugins.com.com",

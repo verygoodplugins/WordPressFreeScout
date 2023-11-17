@@ -39,13 +39,18 @@
 							@endforeach
 						</ul>
 
-						<h5><i class="glyphicon glyphicon-tag"></i> {{ $results->crm_name }} Tags</h5>
+						@if ( $results->crm_name )
+							<h5><i class="glyphicon glyphicon-tag"></i> {{ $results->crm_name }} Tags</h5>
 
-						<ul class="label-cloud">
-							@foreach( $results->tags as $tag )
-								<li><span class="label label-info">{{ strtoupper( $tag ) }}</span></li>
-							@endforeach
-						</ul>
+							<ul class="label-cloud">
+								@foreach( $results->tags as $tag )
+									<li><span class="label label-info">{{ strtoupper( $tag ) }}</span></li>
+								@endforeach
+							</ul>
+
+							<a href="{{ $results->crm_edit_url }}" target="_blank" class="btn btn-trans btn-xs">View in {{ $results->crm_name }} &rarr;</a>
+
+						@endif
 
 						<h5><i class="glyphicon glyphicon-shopping-cart"></i> EDD Orders</h5>
 

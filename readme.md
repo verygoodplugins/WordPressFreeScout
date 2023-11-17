@@ -29,6 +29,11 @@ Features:
 
 ## Changelog
 
+### 1.0.2 on November 17, 2023
+
+* Made CRM section conditional on that field being present
+* Added View in CRM link under CRM tags
+
 ### 1.0.1 on November 10, 2023
 
 * Fixed edit user link going to CRM contact record, not user record
