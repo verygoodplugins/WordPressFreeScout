@@ -100,11 +100,26 @@
 							<ul class="sidebar-block-list edd-orders-list list-group">
 								@foreach( $results->licenses as $license )
 									<li class="list-group-item">
-										@if ( $license->is_active ) 
-											<span class="label label-success"><i class="glyphicon glyphicon-ok-circle"></i> Active</span>
-										@else
-											<span class="label label-warning"><i class="glyphicon glyphicon-time"></i> Expired</span>
-										@endif
+										@switch( $license->status )
+											@case( 'active' )
+												<span class="label label-success"><i class="glyphicon glyphicon-ok-circle"></i> Active</span>
+												@break
+
+											@case( 'inactive' )
+												<span class="label label-default"><i class="glyphicon glyphicon-off"></i> Inactive</span>
+												@break
+
+											@case( 'expired' )
+												<span class="label label-warning"><i class="glyphicon glyphicon-time"></i> Expired</span>
+												@break
+
+											@case( 'disabled' )
+												<span class="label label-danger"><i class="glyphicon glyphicon-minus"></i> Disabled</span>
+												@break
+
+											@default
+												<span class="label label-default">{{ $license->status }}</span>
+										@endswitch
 
 										<a href="{{ $license->edit_url }}" target="_blank">#{{ $license->ID }}</a>
 
