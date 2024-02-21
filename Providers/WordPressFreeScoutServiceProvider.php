@@ -177,6 +177,14 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 
 			}
 
+			if ( ! isset( $results['data'] ) ) {
+				echo 'Uknown error occurred.';
+				echo '<pre>';
+				print_r( $results );
+				echo '</pre>';
+				return;
+			}
+
 			$settings = \WordPressFreeScout::getMailboxSettings($mailbox);
 
 			echo \View::make('wordpressfreescout::partials/orders', [

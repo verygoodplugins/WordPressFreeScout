@@ -181,7 +181,7 @@ function freescout_email_to_user_callback( $request ) {
 				'product'     => get_the_title( $license->download_id ),
 				'expires'     => ! empty( $license->expiration ) ? date( 'm/d/Y', intval( $license->expiration ) ): false,
 				'is_active'   => $license->status === 'active',
-				'edit_url'    => admin_url( 'edit.php?post_type=download&page=edd-licenses&view=overview&license=' . $license->ID ),
+				'edit_url'    => admin_url( 'edit.php?post_type=download&page=edd-licenses&view=overview&license_id=' . $license->ID ),
 				'sites'       => array_map( 'untrailingslashit', $license->sites ),
 			);
 
