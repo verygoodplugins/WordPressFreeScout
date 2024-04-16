@@ -84,6 +84,7 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 			}
 
 			$wordpress_auth_error = '';
+
 			// Get rooms and test API credentials.
 			if (config('wordpress.url') && config('wordpress.username') && config('wordpress.password')) {
 
@@ -161,6 +162,10 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 
 			$results = \Cache::get( 'wp_user_' . $emails[0] );
 
+            $settings = \WordPressFreeScout::getMailboxSettings($mailbox);
+
+            $results = null;
+
 			if ( ! $results ) {
 
 				$customer_data = array(
@@ -169,8 +174,9 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 					'last_name'  => $customer->last_name,
 				);
 
+
 				// Get the data.
-				$results = self::apiWordPressCall( 'freescout/v1/email', $customer_data );
+				$results = self::apiWordPressCall( 'freescout/v1/email', $customer_data, self::API_METHOD_GET, $settings);
 
 				// Cache it for an hour.
 				\Cache::put( 'wp_user_' . $emails[0], $results, now()->addMinutes( 60 ) );
@@ -185,8 +191,6 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 				return;
 			}
 
-			$settings = \WordPressFreeScout::getMailboxSettings($mailbox);
-
 			echo \View::make('wordpressfreescout::partials/orders', [
 				'results'        => $results['data'] ?? false,
 				'error'          => $results['error'] ?? '',
@@ -196,6 +200,11 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 			])->render();
 
 		}, 12, 3 );
+
+
+        \Eventy::addAction('mailboxes.settings.menu', function($mailbox) {
+            echo \View::make('wordpressfreescout::partials/mailbox_settings_menu', ['mailbox' => $mailbox])->render();
+        }, 40);
 	}
 
 	/**
@@ -203,17 +212,18 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 	 */
 	public static function getMailboxSettings($mailbox) {
 		return [
+            'wordpress_active'  =>  $mailbox->meta['wordpress']['wordpress_active'] ?? false,
 			'url'      => $mailbox->meta['wordpress']['url'] ?? '',
 			'username' => $mailbox->meta['wordpress']['username'] ?? '',
 			'password' => $mailbox->meta['wordpress']['password'] ?? '',
 		];
 	}
 
-	public static function apiWordPressCall( $url, $params, $http_method = self::API_METHOD_GET ) {
+	public static function apiWordPressCall( $url, $params, $http_method = self::API_METHOD_GET, $settings = [] ) {
 
 		$response = array();
 
-		$wordpress_url = config( 'wordpress.url' );
+		$wordpress_url = (isset($settings['url']) && !empty($settings['url'])) ? $settings['url'] : config( 'wordpress.url' );
 
 		if ( false === strpos( $wordpress_url, 'http' ) ) {
 			$wordpress_url = 'https://' . $wordpress_url;
@@ -228,10 +238,14 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 		try {
 			$ch = curl_init( $api_url );
 
+            $wpUsername = (isset($settings['username']) && !empty($settings['username'])) ? $settings['username'] : config( 'wordpress.username' );
+
+            $wpPassword = (isset($settings['password']) && !empty($settings['password'])) ? $settings['password'] : config( 'wordpress.password' );
+
 			$headers = array(
 				'Accept: application/json',
 				'Content-Type: application/json',
-				'Authorization: Basic ' . base64_encode( config( 'wordpress.username' ) . ':' . config( 'wordpress.password' ) ),
+				'Authorization: Basic ' . base64_encode( $wpUsername . ':' . $wpPassword ),
 			);
 
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $http_method);
@@ -260,7 +274,7 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 				throw new \Exception(__('Empty API response. Check your credentials. HTTP status code: :status. JSON response: :json. URL: :url', ['status' => $status, 'json' => $json_response, 'url' => $api_url ]), 1);
 			} elseif ($status == 404) {
 				return [
-					'data'   => false, 
+					'data'   => false,
 					'status' => 'error',
 					'error'  => __('No matching user found.'),
 				];
@@ -271,6 +285,7 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 			}
 
 		} catch (\Exception $e) {
+
 			\Helper::log('feature_requests_errors', 'API error: '.$e->getMessage().'; Response: '.json_encode($response).'; Method: '.$url.'; Parameters: '.json_encode($params));
 
 			return [

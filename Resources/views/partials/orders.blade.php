@@ -22,7 +22,7 @@
 							<li><label>Actve CRM</label>{{ $results->active_crm }}</li>
 							<li><label>Last License Check</label>{{ $results->last_license_check }}</li>
 							<li><label>Version</label>
-							
+
 								@if( $results->version == $results->current_version )
 									<span class="label label-success">{{ $results->version }}</span>
 								@else
@@ -30,7 +30,7 @@
 								@endif
 							</li>
 						</ul>
-				
+
 						<h5><i class="glyphicon glyphicon-cog"></i> Active Integrations</h5>
 
 						<ul class="label-cloud">
@@ -58,7 +58,7 @@
 							<ul class="sidebar-block-list edd-orders-list list-group">
 								@foreach( $results->edd_orders as $order )
 									<li class="list-group-item">
-										@if ( $order->is_refunded ) 
+										@if ( $order->is_refunded )
 											<span class="label label-danger"><i class="glyphicon glyphicon-remove-circle"></i> Refunded</span>
 										@elseif ( $order->is_renewal )
 											<span class="label label-primary"><i class="glyphicon glyphicon-refresh"></i> Renewal</span>
@@ -100,7 +100,7 @@
 							<ul class="sidebar-block-list edd-orders-list list-group">
 								@foreach( $results->licenses as $license )
 									<li class="list-group-item">
-										@if ( $license->is_active ) 
+										@if ( $license->is_active )
 											<span class="label label-success"><i class="glyphicon glyphicon-ok-circle"></i> Active</span>
 										@else
 											<span class="label label-warning"><i class="glyphicon glyphicon-time"></i> Expired</span>
@@ -138,7 +138,7 @@
 					@else
 						<div class="text-help margin-top-10 edd-no-orders">{{ __("No data found") }}</div>
 					@endif
-					
+
 
 				</div>
 
