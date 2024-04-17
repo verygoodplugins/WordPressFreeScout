@@ -9,13 +9,21 @@
 
 @section('content')
 
-    <div class="section-heading">
+    <div class="section-heading margin-bottom">
         WordPress - {{ $mailbox->name }}
     </div>
 
     <!-- @include('partials/flash_messages') -->
 
  	<div class="row-container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="block-help">
+                    At this point, you can overwrite the default settings of the WordPress installation. This makes sense if you manage several projects and WordPress sites at the same time.
+                </p>
+            </div>
+        </div>
+        <hr>
         <div class="row">
             <div class="col-xs-12">
                 <form class="form-horizontal margin-top margin-bottom" method="POST" action="">
