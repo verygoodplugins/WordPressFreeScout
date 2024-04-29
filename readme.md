@@ -19,6 +19,7 @@ Features:
 
 ## Wish list
 
+- [ ] Connect multiple mailboxes to multiple sites
 - [ ] EDD subscriptions
 - [ ] Link to CRM contact record
 - [ ] Settings in the FreeScout admin to toggle individual fields
@@ -28,6 +29,11 @@ Features:
 --------------------
 
 ## Changelog
+
+### 1.0.3 on Feb 21st 2024 
+* Fixed broken EDD license ID link
+* Improved error handling for invalid or empty responses
+* Cleaned up settings page
 
 ### 1.0.2 on November 17, 2023
 
