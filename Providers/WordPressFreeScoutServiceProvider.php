@@ -184,9 +184,14 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 			}
 
 			if ( ! isset( $results['data'] ) ) {
-				echo 'Uknown error occurred.';
+				echo 'Unknown error occurred.';
 				return;
 			}
+            else if((isset($results['data'], $results['data']->code) && $results['data']->code == "rest_forbidden"))
+            {
+                echo 'WordPress: API Error.';
+				return;
+            }
 
 			echo \View::make('wordpressfreescout::partials/orders', [
 				'results'        => $results['data'] ?? false,
