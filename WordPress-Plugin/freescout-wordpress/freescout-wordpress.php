@@ -213,6 +213,10 @@ function freescout_email_to_user_callback( $request ) {
                 // Subscription status
                 $subscription_data['status'] = $subscription->get_status_label();
 
+                // Creation date
+                $creation_date = ! empty( $subscription->created ) ? date_i18n( get_option( 'date_format' ), strtotime( $subscription->created ) ) : __( 'N/A', 'edd-recurring' );
+                $subscription_data['creation_date'] = $creation_date;
+
                 // Expiration date
                 $expiration_date = ! empty( $subscription->expiration ) ? date_i18n( get_option( 'date_format' ), strtotime( $subscription->expiration ) ) : __( 'N/A', 'edd-recurring' );
                 $subscription_data['expiration_date'] = $expiration_date;

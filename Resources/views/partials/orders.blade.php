@@ -97,45 +97,43 @@
                         <h5><i class="glyphicon glyphicon-shopping-cart"></i> EDD Subscriptions</h5>
 
                         @if( isset($results->edd_subscriptions) )
-							<ul class="sidebar-block-list edd-subscriptions-list list-group">
+                        <ul class="sidebar-block-list edd-orders-list list-group">
+                            @foreach( $results->edd_subscriptions as $subscription )
+                                <li class="list-group-item">
+                                    @switch($subscription->status)
+                                        @case('Active')
+                                            <span class="label label-primary"> Active</span>
+                                        @break
+                                        @case('Pending')
+                                            <span class="label label-info"> Pending</span>
+                                        @break
+                                        @case('Expired')
+                                            <span class="label label-danger"> Expired</span>
+                                        @break
+                                        @case('Completed')
+                                            <span class="label label-success"> Completed</span>
+                                        @break
+                                        @default
+                                        <span class="label label-default">{{ $subscription->status ?? '' }}</span>
+                                    @endswitch
 
-								@foreach( $results->edd_subscriptions as $subscription )
-									<li class="list-group-item">
-                                        <div style="margin-bottom: 10px;">
-                                            <small>Billing Cycle: {{ $subscription->initial_amount }} then {{ $subscription->billing_frequency }}</small>
-                                        </div>
-                                        @switch($subscription->status)
-                                            @case('Active')
-                                                <span class="label label-primary"> Active</span>
-                                            @break
-                                            @case('Pending')
-                                                <span class="label label-info"> Pending</span>
-                                            @break
-                                            @case('Expired')
-                                                <span class="label label-danger"> Expired</span>
-                                            @break
-                                            @case('Completed')
-                                                <span class="label label-success"> Completed</span>
-                                            @break
-                                            @default
-                                            <span class="label label-default">{{ $subscription->status ?? '' }}</span>
-                                        @endswitch
+                                    <a href="{{ $subscription->detail_link }}" target="_blank">{{ $subscription->subscription_id ?? '' }}</a>
 
+                                    {{-- {{ $order->purchase_amount }} --}}
 
-										<a href="{{ $subscription->detail_link }}" target="_blank">{{ $subscription->subscription_id ?? '' }}</a>
-                                        <br/>
-										<h4>{{ $subscription->product_name }} </h4>
+                                    <ul class="edd-order-items-list">
+                                        <li>{{ $subscription->product_name }} - <span>{{ $subscription->initial_amount }} then {{ $subscription->billing_frequency }}</span> </li>
+                                    </ul>
 
-										<div class="edd-subscription-meta">
+                                    <div class="edd-order-meta">
+                                        <div><strong>Created:</strong> {{ $subscription->creation_date ?? '' }}</div>
+                                        <div><strong>Expiration:</strong> {{ $subscription->expiration_date ?? '' }}</div>
+                                        <div><strong>Times Billed:</strong> {{ $subscription->times_billed ?? '' }}</div>
+                                    </div>
 
-											<div><strong>Created:</strong> {{ $subscription->creation_date ?? '' }}</div>
-											<div><strong>Expiration:</strong> {{ $subscription->expiration_date ?? '' }}</div>
-											<div><strong>Times Billed:</strong> {{ $subscription->times_billed ?? '' }}</div>
-										</div>
-
-									</li>
-								@endforeach
-							</ul>
+                                </li>
+                            @endforeach
+                        </ul>
 						@else
 							<div class="text-help margin-top-10 edd-no-subscriptions">{{ __("No subscriptions found") }}</div>
 						@endif
