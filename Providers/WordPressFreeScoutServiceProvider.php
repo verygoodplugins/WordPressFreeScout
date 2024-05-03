@@ -164,8 +164,6 @@ class WordPressFreeScoutServiceProvider extends ServiceProvider
 
             $settings = \WordPressFreeScout::getMailboxSettings($mailbox);
 
-            $results = null;
-
 			if ( ! $results ) {
 
 				$customer_data = array(
