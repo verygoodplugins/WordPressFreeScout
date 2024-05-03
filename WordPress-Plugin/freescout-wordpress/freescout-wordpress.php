@@ -13,7 +13,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Register a new route for the REST API.
- * 
+ *
  * @since 1.0.0
  */
 function freescout_register_route() {
@@ -161,7 +161,6 @@ function freescout_email_to_user_callback( $request ) {
 				'products'        => $products,
 			);
 		}
-
 	}
 
 	// EDD software licensing.
@@ -188,6 +187,64 @@ function freescout_email_to_user_callback( $request ) {
 		}
 
 	}
+
+    $data['edd_subscriptions'] = array();
+
+    if(class_exists('EDD_Recurring_Subscriber'))
+    {
+        $subscriptions_data = array();
+
+        $subscriber    = new EDD_Recurring_Subscriber( $user->ID, true );
+
+        $subscriptions = $subscriber->get_subscriptions( 0, array( 'active', 'expired', 'cancelled', 'failing', 'trialling' ) );
+
+        if ( $subscriptions ) {
+
+            foreach ( $subscriptions as $subscription ) {
+
+                $subscription_data = array();
+
+                // Subscription ID
+                $subscription_data['subscription_id'] = '#' . $subscription->id;
+
+                // Product details
+                $subscription_data['product_name'] = get_the_title( $subscription->product_id );
+
+                // Subscription status
+                $subscription_data['status'] = $subscription->get_status_label();
+
+                // Creation date
+                $creation_date = ! empty( $subscription->created ) ? date_i18n( get_option( 'date_format' ), strtotime( $subscription->created ) ) : __( 'N/A', 'edd-recurring' );
+                $subscription_data['creation_date'] = $creation_date;
+
+                // Expiration date
+                $expiration_date = ! empty( $subscription->expiration ) ? date_i18n( get_option( 'date_format' ), strtotime( $subscription->expiration ) ) : __( 'N/A', 'edd-recurring' );
+                $subscription_data['expiration_date'] = $expiration_date;
+
+                // Billing frequency
+                $frequency = EDD_Recurring()->get_pretty_subscription_frequency( $subscription->period );
+                $subscription_data['billing_frequency'] = edd_currency_filter( edd_format_amount( $subscription->recurring_amount ), edd_get_payment_currency_code( $subscription->parent_payment_id ) ) . ' / ' . $frequency;
+
+
+                // Initial amount
+                $subscription_data['initial_amount'] = edd_currency_filter( edd_format_amount( $subscription->initial_amount ), edd_get_payment_currency_code( $subscription->parent_payment_id ) );
+
+                // Times billed
+                $subscription_data['times_billed'] = $subscription->get_times_billed() . ' / ' . ( ( $subscription->bill_times == 0 ) ? __( 'Until cancelled', 'edd-recurring' ) : $subscription->bill_times );
+
+                // Subscription detail screen link
+                $subscription_detail_url = admin_url( 'edit.php?post_type=download&page=edd-subscriptions&id=' . $subscription->id );
+                $subscription_data['detail_link'] = $subscription_detail_url;
+
+                // Add subscription data to the array
+                $subscriptions_data[] = $subscription_data;
+            }
+        }
+
+        $data['edd_subscriptions'] = $subscriptions_data;
+    }
+
+
 
 	return new WP_REST_Response( $data, 200 );
 
